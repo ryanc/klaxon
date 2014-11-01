@@ -10,7 +10,6 @@ gem "dotenv"
 group :test do
   gem 'minitest'
   gem 'webmock'
-  gem 'rack'
   gem 'vcr'
 end
 
