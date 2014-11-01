@@ -47,7 +47,6 @@ DEPENDENCIES
   dotenv
   minitest
   pagerduty
-  rack
   rack-test
   sinatra
   twilio-ruby
