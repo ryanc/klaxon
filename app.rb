@@ -57,7 +57,7 @@ class CallHandler < Handler
   post '/voicemail' do
     pagerduty = PagerdutyEvent.new(settings.service_key)
     logger.info("Received a voicemail from #{@caller}.")
-    recording_url = params['RecordingUrl']
+    recording_url = params['RecordingUrl'] + '.wav'
     logger.info("Voicemail saved to #{recording_url}.")
     pagerduty.call(@caller, recording_url)
 
