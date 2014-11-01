@@ -7,7 +7,7 @@ require 'sinatra/base'
 require 'pagerduty'
 require 'dotenv'
 
-class PagerdutyEvent
+class PagerDutyGateway
   def initialize(service_key)
     @pagerduty = Pagerduty.new(service_key)
   end
@@ -55,7 +55,7 @@ class CallHandler < Handler
   end
 
   post '/voicemail' do
-    pagerduty = PagerdutyEvent.new(settings.service_key)
+    pagerduty = PagerDutyGateway.new(settings.service_key)
     logger.info("Received a voicemail from #{@caller}.")
     recording_url = params['RecordingUrl'] + '.wav'
     logger.info("Voicemail saved to #{recording_url}.")
@@ -78,7 +78,7 @@ class SMSHandler < Handler
   end
 
   post '/' do
-    pagerduty = PagerdutyEvent.new(settings.service_key)
+    pagerduty = PagerDutyGateway.new(settings.service_key)
     message = params['Body']
     logger.info("Received a SMS from #{@caller}: #{message}.")
     pagerduty.sms(@caller, message)
