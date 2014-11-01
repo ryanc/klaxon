@@ -1,13 +1,13 @@
 # A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "sinatra"
-gem "twilio-ruby"
-gem "pagerduty"
-gem "dotenv"
+gem 'sinatra'
+gem 'twilio-ruby'
+gem 'pagerduty'
+gem 'dotenv'
 
 group :test do
-  gem "rack-test"
+  gem 'rack-test'
   gem 'minitest'
   gem 'webmock'
   gem 'vcr'
