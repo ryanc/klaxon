@@ -35,6 +35,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    vcr (2.9.3)
     webmock (1.20.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -51,4 +52,5 @@ DEPENDENCIES
   sinatra
   twilio-ruby
   unicorn
+  vcr
   webmock

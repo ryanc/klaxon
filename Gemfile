@@ -1,16 +1,16 @@
 # A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "sinatra"
-gem "rack-test"
-gem "twilio-ruby"
-gem "pagerduty"
-gem "dotenv"
+gem 'sinatra'
+gem 'twilio-ruby'
+gem 'pagerduty'
+gem 'dotenv'
 
 group :test do
+  gem 'rack-test'
   gem 'minitest'
   gem 'webmock'
-  gem 'rack'
+  gem 'vcr'
 end
 
 group :deployment do
