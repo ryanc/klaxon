@@ -23,10 +23,10 @@ class TestCallHandler < Minitest::Test
   end
 
   def test_voicemail
-    stub_request(:post, "https://events.pagerduty.com/generic/2010-04-15/create_event.json").
-    to_return(:status => 200, :body => '{"status":"success","message":"Event processed","incident_key":"voicemail +15555555555"}')
+    VCR.use_cassette('create_event_voicemail') do
+      post '/voicemail', { 'Caller' => '+15555555555', 'RecordingUrl' => @sample_recording_url }
+    end
 
-    post '/voicemail', { 'Caller' => '+15555555555', 'RecordingUrl' => @sample_recording_url }
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(
       %q(<?xml version="1.0" encoding="UTF-8"?><Response><Say>Thank you, a technician will be notified shortly.</Say><Hangup/></Response>),
@@ -43,10 +43,9 @@ class TestSMSHandler < Minitest::Test
   end
 
   def test_sms
-    stub_request(:post, "https://events.pagerduty.com/generic/2010-04-15/create_event.json").
-    to_return(:status => 200, :body => '{"status":"success","message":"Event processed","incident_key":"sms +15555555555"}')
-
-    post '/', { 'From' => '+15555555555', 'Message' => '♫ Everything is broken ♫' }
+    VCR.use_cassette('create_event_sms') do
+      post '/', { 'From' => '+15555555555', 'Message' => '♫ Everything is broken ♫' }
+    end
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(
       %q(<?xml version="1.0" encoding="UTF-8"?><Response><Message to="+15555555555">Thank you, a technician will be notified shortly.</Message></Response>),

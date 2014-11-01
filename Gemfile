@@ -11,6 +11,7 @@ group :test do
   gem 'minitest'
   gem 'webmock'
   gem 'rack'
+  gem 'vcr'
 end
 
 group :deployment do
