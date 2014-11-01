@@ -2,12 +2,12 @@
 source "https://rubygems.org"
 
 gem "sinatra"
-gem "rack-test"
 gem "twilio-ruby"
 gem "pagerduty"
 gem "dotenv"
 
 group :test do
+  gem "rack-test"
   gem 'minitest'
   gem 'webmock'
   gem 'vcr'
