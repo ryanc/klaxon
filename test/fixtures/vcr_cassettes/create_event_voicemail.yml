@@ -5,7 +5,7 @@ http_interactions:
     uri: https://events.pagerduty.com/generic/2010-04-15/create_event.json
     body:
       encoding: UTF-8
-      string: '{"incident_key":"voicemail +15555555555","details":{"caller":"+15555555555","voicemail":"http://api.twilio.com/2010-04-01/Accounts/AC00000000000000000000000000000000/Recordings/RE00000000000000000000000000000000.wav"},"description":"New
+      string: '{"incident_key":"voicemail +15555555555","details":{"caller":"+15555555555","voicemail":"http://api.twilio.com/2010-04-01/Accounts/AC00000000000000000000000000000000/Recordings/RE00000000000000000000000000000000"},"description":"New
         voicemail from +15555555555","service_key":"00000000000000000000000000000000","event_type":"trigger"}'
     headers:
       Accept-Encoding:
@@ -28,5 +28,5 @@ http_interactions:
       string: '{"status":"success","message":"Event processed","incident_key":"voicemail
         +15555555555"}'
     http_version: 
-  recorded_at: Sat, 01 Nov 2014 17:48:02 GMT
+  recorded_at: Sun, 02 Nov 2014 15:45:49 GMT
 recorded_with: VCR 2.9.3
