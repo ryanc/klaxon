@@ -12,14 +12,14 @@ class PagerDutyGateway
     @pagerduty = Pagerduty.new(service_key)
   end
 
-  def call(caller, recording_url)
+  def trigger_voicemail_event(caller, recording_url)
     description = "New voicemail from #{caller}"
     incident_key = "voicemail #{caller}"
     details = { caller: caller, voicemail: recording_url }
     @pagerduty.trigger(description, :incident_key => incident_key, :details => details)
   end
 
-  def sms(caller, message)
+  def trigger_sms_event(caller, message)
     description = "New SMS from #{caller}"
     incident_key = "sms #{caller}"
     details = { caller: caller, message: message }
@@ -59,7 +59,7 @@ class CallHandler < Handler
     logger.info("Received a voicemail from #{@caller}.")
     recording_url = params['RecordingUrl'] + '.wav'
     logger.info("Voicemail saved to #{recording_url}.")
-    pagerduty.call(@caller, recording_url)
+    pagerduty.trigger_voicemail_event(@caller, recording_url)
 
     response = Twilio::TwiML::Response.new do |r|
       r.Say "Thank you, a technician will be notified shortly."
@@ -81,7 +81,7 @@ class SMSHandler < Handler
     pagerduty = PagerDutyGateway.new(settings.service_key)
     message = params['Body']
     logger.info("Received a SMS from #{@caller}: #{message}.")
-    pagerduty.sms(@caller, message)
+    pagerduty.trigger_sms_event(@caller, message)
 
     response = Twilio::TwiML::Response.new do |r|
       r.Message "Thank you, a technician will be notified shortly.", :to => @caller
