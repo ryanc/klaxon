@@ -28,7 +28,14 @@ class TestCallHandler < Minitest::Test
   def test_voicemail
     Pagerduty.stub :new, @pagerduty do
       post '/voicemail', { 'Caller' => '+15555555555', 'RecordingUrl' => @sample_recording_url }
-      assert(@pagerduty.verify)
+
+      begin
+        @pagerduty.verify
+      rescue MockExpectationError => e
+        flunk(e.message)
+      else
+        pass
+      end
     end
 
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
@@ -54,7 +61,14 @@ class TestSMSHandler < Minitest::Test
   def test_sms
     Pagerduty.stub :new, @pagerduty do
       post '/', { 'From' => '+15555555555', 'Message' => '♫ Everything is broken ♫' }
-      assert(@pagerduty.verify)
+
+      begin
+        @pagerduty.verify
+      rescue MockExpectationError => e
+        flunk(e.message)
+      else
+        pass
+      end
     end
 
     assert_includes(last_response.headers['Content-Type'], 'text/xml')

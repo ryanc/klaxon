@@ -14,11 +14,25 @@ class TestPagerDutyGateway < Minitest::Test
 
   def test_voicemail_event
     @gw.trigger_voicemail_event('+15555555555', @sample_recording_url)
-    assert(@pagerduty.verify)
+
+    begin
+      @pagerduty.verify
+    rescue MockExpectationError => e
+      flunk(e.message)
+    else
+      pass
+    end
   end
 
   def test_sms_event
     @gw.trigger_sms_event('+15555555555', '♫ Everything is broken ♫')
-    assert(@pagerduty.verify)
+
+    begin
+      @pagerduty.verify
+    rescue MockExpectationError => e
+      flunk(e.message)
+    else
+      pass
+    end
   end
 end
