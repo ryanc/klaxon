@@ -1,10 +1,13 @@
 require 'helper'
-require 'webmock/minitest'
+require 'pagerduty'
 
 class TestCallHandler < Minitest::Test
   include Rack::Test::Methods
 
   def setup
+    @pagerduty = Minitest::Mock.new
+    @pagerduty.expect(:trigger, PagerdutyIncident.new('test', 'test'), [String, Hash])
+
     @sample_recording_url = 'http://api.twilio.com/2010-04-01/Accounts/AC00000000000000000000000000000000/Recordings/RE00000000000000000000000000000000'
   end
 
@@ -23,8 +26,9 @@ class TestCallHandler < Minitest::Test
   end
 
   def test_voicemail
-    VCR.use_cassette('create_event_voicemail') do
+    Pagerduty.stub :new, @pagerduty do
       post '/voicemail', { 'Caller' => '+15555555555', 'RecordingUrl' => @sample_recording_url }
+      assert(@pagerduty.verify)
     end
 
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
@@ -38,14 +42,21 @@ end
 class TestSMSHandler < Minitest::Test
   include Rack::Test::Methods
 
+  def setup
+    @pagerduty = Minitest::Mock.new
+    @pagerduty.expect(:trigger, PagerdutyIncident.new('test', 'test'), [String, Hash])
+  end
+
   def app
     SMSHandler
   end
 
   def test_sms
-    VCR.use_cassette('create_event_sms') do
+    Pagerduty.stub :new, @pagerduty do
       post '/', { 'From' => '+15555555555', 'Message' => '♫ Everything is broken ♫' }
+      assert(@pagerduty.verify)
     end
+
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(
       %q(<?xml version="1.0" encoding="UTF-8"?><Response><Message to="+15555555555">Thank you, a technician will be notified shortly.</Message></Response>),
