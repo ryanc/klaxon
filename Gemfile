@@ -9,8 +9,6 @@ gem 'dotenv'
 group :test do
   gem 'rack-test'
   gem 'minitest'
-  gem 'webmock'
-  gem 'vcr'
 end
 
 group :deployment do
