@@ -17,6 +17,7 @@ class TestCallHandler < Minitest::Test
 
   def test_greeting
     post '/greeting', { 'Caller' => '+15555555555', 'RecordingUrl' => @sample_recording_url }
+    assert last_response.ok?
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(200, last_response.status)
     assert_equal(
@@ -38,6 +39,7 @@ class TestCallHandler < Minitest::Test
       end
     end
 
+    assert last_response.ok?
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(
       %q(<?xml version="1.0" encoding="UTF-8"?><Response><Say>Thank you, a technician will be notified shortly.</Say><Hangup/></Response>),
@@ -71,6 +73,7 @@ class TestSMSHandler < Minitest::Test
       end
     end
 
+    assert last_response.ok?
     assert_includes(last_response.headers['Content-Type'], 'text/xml')
     assert_equal(
       %q(<?xml version="1.0" encoding="UTF-8"?><Response><Message to="+15555555555">Thank you, a technician will be notified shortly.</Message></Response>),
