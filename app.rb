@@ -102,7 +102,7 @@ class WebHandler < Handler
       message = params['message']
       phone = params['phone']
       logger.info("Received a Web page from #{phone}: #{message}.")
-      pagerduty.trigger_web_event(phone, message)
+      pagerduty.trigger_web_event(name, phone, message)
       flash.now[:success] = "A technician has been paged."
     end
     erb :form
