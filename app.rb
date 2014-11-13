@@ -6,6 +6,7 @@ require 'logger'
 require 'sinatra/base'
 require 'pagerduty'
 require 'dotenv'
+require 'rack-flash'
 
 require 'app/helpers/pagerduty'
 
@@ -70,5 +71,40 @@ class SMSHandler < Handler
     end
 
     response.to_xml
+  end
+end
+
+class WebHandler < Handler
+  use Rack::Flash
+
+  configure do
+    enable :sessions
+  end
+
+  before do
+    logger.debug("Parameters: #{params.inspect}")
+  end
+
+  get '/' do
+    erb :form
+  end
+
+  post '/' do
+    invalid = [:name, :phone, :message].any? do |field|
+      params[field].nil? || params[field].strip.empty?
+    end
+
+    if invalid
+      flash.now[:error] = "All fields are required."
+      status 400
+    else
+      pagerduty = PagerDutyGateway.new(settings.service_key)
+      message = params['message']
+      phone = params['phone']
+      logger.info("Received a Web page from #{phone}: #{message}.")
+      pagerduty.trigger_sms_event(phone, message)
+      flash.now[:success] = "A technician has been paged."
+    end
+    erb :form
   end
 end

@@ -1,0 +1,101 @@
+@import 'bourbon/bourbon';
+@import 'neat/neat';
+@import 'base/base';
+
+$font-stack: $helvetica;
+$primary-color: #484c55;
+$navigation-color: #acc1c6;
+$banner-color: #c20116;
+$button-color: #c20116;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+  line-height: 1.5em;
+  background-color: #343635;
+}
+
+.container {
+  @include outer-container;
+
+  .banner {
+    //background-color: $banner-color; 
+    @include background-image(linear-gradient($banner-color, darken($banner-color, 10%)));
+    padding: 1em;
+
+    h1 {
+      margin: 0;
+      color: #fff;
+      font-size: 150%;
+      font-weight: normal;
+    }
+  }
+
+  .content {
+    @include span-columns(6);
+    @include shift(3);
+    background-color: #fff;
+    margin-top: 2em;
+  }
+
+  form {
+    padding: 1em;
+
+    label {
+      display: block;
+      margin-bottom: 0.1em;
+    }
+
+    input[type=text], input[type=tel], textarea {
+      width: 100%;
+    }
+
+    input[type=submit] {
+      @include button($button-color);
+      color: #fff;
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.right {
+  text-align: right;
+}
+
+.note {
+  font-size: 80%;
+  margin: 0;
+}
+
+$flash-red: #FBE3E4;
+$flash-yellow: #FFF6BF;
+$flash-green: #E6EFC2;
+
+%flash-base {
+  display: block;
+  font-weight: bold;
+  margin-bottom: $base-spacing / 2;
+  padding: $base-spacing / 2;
+}
+
+$flashes: (alert: $flash-yellow, error: $flash-red, notice: lighten($base-accent-color, 40), success: $flash-green);
+
+@each $flash, $color in $flashes {
+  .flash-#{$flash} {
+    @extend %flash-base;
+    background: $color;
+    color: darken($color, 60);
+
+    a {
+      color: darken($color, 70);
+      border-bottom: 1px solid transparentize(darken($color, 70), .7);
+
+      &:hover {
+        color: darken($color, 90);
+      }
+    }
+  }
+}

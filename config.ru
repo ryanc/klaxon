@@ -2,8 +2,11 @@ $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
 
 require 'twilio-ruby'
 require 'app'
+require 'sass/plugin/rack'
 
-use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/'
+use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/call'
+use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/sms'
+use Sass::Plugin::Rack
 
 app = Rack::Builder.new do
   map "/call" do
@@ -11,6 +14,9 @@ app = Rack::Builder.new do
   end
   map "/sms" do
     run SMSHandler.new
+  end
+  map "/" do
+    run WebHandler.new
   end
 end
 
