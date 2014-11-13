@@ -35,4 +35,16 @@ class TestPagerDutyGateway < Minitest::Test
       pass
     end
   end
+
+  def test_web_event
+    @gw.trigger_web_event('Han Solo', '+15555555555', 'Hyperdrive is broken.')
+
+    begin
+      @pagerduty.verify
+    rescue MockExpectationError => e
+      flunk(e.message)
+    else
+      pass
+    end
+  end
 end

@@ -22,4 +22,11 @@ class PagerDutyGateway
     details = { caller: caller, message: message }
     @pagerduty.trigger(description, :incident_key => incident_key, :details => details)
   end
+
+  def trigger_web_event(name, phone, message)
+    description = "New Web page from #{name}"
+    incident_key = "web #{phone}"
+    details = { name: name, phone: phone, message: message }
+    @pagerduty.trigger(description, :incident_key => incident_key, :details => details)
+  end
 end
