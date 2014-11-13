@@ -99,6 +99,7 @@ class WebHandler < Handler
       status 400
     else
       pagerduty = PagerDutyGateway.new(settings.service_key)
+      name = params['name']
       message = params['message']
       phone = params['phone']
       logger.info("Received a Web page from #{phone}: #{message}.")
