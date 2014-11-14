@@ -19,7 +19,6 @@ body {
   @include outer-container;
 
   .banner {
-    //background-color: $banner-color; 
     @include background-image(linear-gradient($banner-color, darken($banner-color, 10%)));
     padding: 1em;
 
