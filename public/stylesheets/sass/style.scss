@@ -31,10 +31,12 @@ body {
   }
 
   .content {
-    @include span-columns(6);
-    @include shift(3);
+    @media screen and (min-width: 50em) {
+      @include span-columns(6);
+      @include shift(3);
+      margin-top: 2em;
+    }
     background-color: #fff;
-    margin-top: 2em;
   }
 
   form {
