@@ -49,6 +49,10 @@ body {
       width: 100%;
     }
 
+    textarea {
+      height: 10em;
+    }
+
     input[type=submit] {
       @include button($button-color);
       color: #fff;
