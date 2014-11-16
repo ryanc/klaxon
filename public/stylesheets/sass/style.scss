@@ -45,6 +45,7 @@ body {
     label {
       display: block;
       margin-bottom: 0.1em;
+      font-weight: normal;
     }
 
     input[type=text], input[type=tel], textarea {
@@ -81,7 +82,6 @@ $flash-green: #E6EFC2;
 
 %flash-base {
   display: block;
-  font-weight: bold;
   margin-bottom: $base-spacing / 2;
   padding: $base-spacing / 2;
 }
