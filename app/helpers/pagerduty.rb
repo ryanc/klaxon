@@ -1,8 +1,4 @@
 class PagerDutyGateway
-  HOST = 'events.pagerduty.com'
-  PORT = 443
-  PATH = '/generic/2010-04-15/create_event.json'
-
   attr_accessor :pagerduty
 
   def initialize(service_key)

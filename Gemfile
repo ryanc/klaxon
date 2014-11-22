@@ -15,4 +15,5 @@ end
 group :deployment do
   gem 'unicorn'
   gem 'sass'
+  gem 'faker'
 end

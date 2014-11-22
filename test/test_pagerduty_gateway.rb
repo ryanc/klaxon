@@ -9,11 +9,13 @@ class TestPagerDutyGateway < Minitest::Test
     @gw = PagerDutyGateway.new(ENV['PAGERDUTY_SERVICE_KEY'])
     @gw.pagerduty = @pagerduty
 
-    @sample_recording_url = 'http://api.twilio.com/2010-04-01/Accounts/AC00000000000000000000000000000000/Recordings/RE00000000000000000000000000000000'
+    @recording_url = Faker::Internet.url
+    @caller = Faker::PhoneNumber.phone_number
+    @name = Faker::Name.name
   end
 
   def test_voicemail_event
-    @gw.trigger_voicemail_event('+15555555555', @sample_recording_url)
+    @gw.trigger_voicemail_event(@caller, @recording_url)
 
     begin
       @pagerduty.verify
@@ -25,7 +27,7 @@ class TestPagerDutyGateway < Minitest::Test
   end
 
   def test_sms_event
-    @gw.trigger_sms_event('+15555555555', '♫ Everything is broken ♫')
+    @gw.trigger_sms_event(@caller, '♫ Everything is broken ♫')
 
     begin
       @pagerduty.verify
@@ -37,7 +39,7 @@ class TestPagerDutyGateway < Minitest::Test
   end
 
   def test_web_event
-    @gw.trigger_web_event('Han Solo', '+15555555555', 'Hyperdrive is broken.')
+    @gw.trigger_web_event(@name, @caller, '♫ Everything is broken ♫')
 
     begin
       @pagerduty.verify
