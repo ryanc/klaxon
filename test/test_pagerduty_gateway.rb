@@ -39,7 +39,7 @@ class TestPagerDutyGateway < Minitest::Test
   end
 
   def test_web_event
-    @gw.trigger_web_event(@name, @caller, 'Hyperdrive is broken.')
+    @gw.trigger_web_event(@name, @caller, '♫ Everything is broken ♫')
 
     begin
       @pagerduty.verify

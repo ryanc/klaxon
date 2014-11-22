@@ -109,7 +109,7 @@ class TestWebHandler < Minitest::Test
 
   def test_post_form
     Pagerduty.stub :new, @pagerduty do
-      post '/', { name: @name, phone: @caller, message: 'Hyperdrive is broken.' }
+      post '/', { name: @name, phone: @caller, message: '♫ Everything is broken ♫' }
     end
     assert last_response.ok?
     assert_includes(last_response.headers['Content-Type'], 'text/html')
@@ -126,24 +126,24 @@ class TestWebHandler < Minitest::Test
   end
 
   def test_validation_failure_name
-    post '/', { name: '', phone: @caller, message: 'Hyperdrive is broken.' }
+    post '/', { name: '', phone: @caller, message: '♫ Everything is broken ♫' }
     assert_equal(400, last_response.status)
     assert_includes(last_response.body, 'All fields are required.')
     refute_includes(last_response.body, 'A technician has been paged.')
 
-    post '/', { name: ' ', phone: @caller, message: 'Hyperdrive is broken.' }
+    post '/', { name: ' ', phone: @caller, message: '♫ Everything is broken ♫' }
     assert_equal(400, last_response.status)
     assert_includes(last_response.body, 'All fields are required.')
     refute_includes(last_response.body, 'A technician has been paged.')
   end
 
   def test_validation_failure_phone
-    post '/', { name: @name, phone: '', message: 'Hyperdrive is broken.' }
+    post '/', { name: @name, phone: '', message: '♫ Everything is broken ♫' }
     assert_equal(400, last_response.status)
     assert_includes(last_response.body, 'All fields are required.')
     refute_includes(last_response.body, 'A technician has been paged.')
 
-    post '/', { name: @name, phone: ' ', message: 'Hyperdrive is broken.' }
+    post '/', { name: @name, phone: ' ', message: '♫ Everything is broken ♫' }
     assert_equal(400, last_response.status)
     assert_includes(last_response.body, 'All fields are required.')
     refute_includes(last_response.body, 'A technician has been paged.')
