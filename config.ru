@@ -8,6 +8,8 @@ use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/call'
 use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/sms'
 use Sass::Plugin::Rack
 
+Sass::Plugin.options[:style] = :compressed
+
 app = Rack::Builder.new do
   map "/call" do
     run CallHandler.new

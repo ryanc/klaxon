@@ -10,10 +10,10 @@ gem 'rack-flash3'
 group :test do
   gem 'rack-test'
   gem 'minitest'
+  gem 'faker'
 end
 
 group :deployment do
   gem 'unicorn'
   gem 'sass'
-  gem 'faker'
 end
