@@ -4,8 +4,7 @@ require 'twilio-ruby'
 require 'app'
 require 'sass/plugin/rack'
 
-use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/call'
-use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/sms'
+use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/call', '/sms'
 use Sass::Plugin::Rack
 
 Sass::Plugin.options[:style] = :compressed
